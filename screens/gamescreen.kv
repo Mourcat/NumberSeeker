@@ -1,0 +1,72 @@
+<GameScreen>:
+
+    MDBoxLayout:
+        id: game_lay
+        orientation: 'vertical'
+        opacity: 0
+
+        ActionBar:
+
+            ActionView:
+
+                ActionPrevious:
+                    app_icon: 'assets/Rainmeter.png'
+                    app_icon_width: 128
+                    title: f'   {app.title}    '
+                    with_previous: False
+
+                    ActionLabel:
+                        id: attempt_lbl
+                        text: f'{root.attempt_dict[root.attempt].upper()} ПОПЫТКА'
+                    ActionSeparator:
+                    ActionButton:
+                        text: 'МЕНЮ'
+
+        MDLabel:
+            id: result_lbl
+            opacity: 0.05
+            halign: 'center'
+            font_style: 'H2'
+
+        MDCard:
+            id: game_card
+            orientation: 'vertical'
+            size_hint: .8, .7
+            pos_hint: {'center_x': .5, 'center_y': .5}
+            radius: [dp(35),]
+            elevation: 12
+            spacing: dp(30)
+            padding: dp(60)
+            opacity: 0
+
+            MDLabel:
+                id: info_lbl
+                halign: 'center'
+                font_style: 'H6'
+                theme_text_color: 'Custom'
+                text_color: app.theme_cls.primary_color
+                size_hint_y: None
+                height: self.texture_size[1]
+
+            MDTextFieldRound:
+                id: num_inp
+                hint_text: 'Введите число от 0 до 100'
+                size_hint: .1, None
+                pos_hint: {'center_x': .5, 'center_y': .5}
+                multiline: False
+                on_text:
+                    root.check_enter()
+
+            MDRaisedButton:
+                id: try_btn
+                text: 'УГАДАТЬ'
+                disabled: True
+                pos_hint: {'center_x': .5, 'center_y': .5}
+                on_release:
+                    root.players_attempts.append(num_inp.text)
+                    self.disabled = True
+                    root.anim_next_player()
+
+            MDList:
+                id: attempts_list
+

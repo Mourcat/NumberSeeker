@@ -1,0 +1,81 @@
+#: import Animation kivy.animation.Animation
+#: import Win kivy.core.window.Window
+#: import from_hex kivy.utils.get_color_from_hex
+
+#: set bg_color from_hex('#2f4f4f')
+#: set black from_hex('#000000')
+
+
+<InScreen>:
+    on_enter:
+        Animation(opacity=1).start(intro_lay)
+
+    MDBoxLayout:
+        id: intro_lay
+        orientation: 'vertical'
+        opacity: 0
+
+        MDLabel:
+            text: app.title
+            halign: 'center'
+            font_style: 'H3'
+            theme_text_color: 'Custom'
+            text_color: app.theme_cls.primary_dark
+
+        MDCard:
+            orientation: 'vertical'
+            size_hint: .7, .8
+            md_bg_color: bg_color
+            pos_hint: {'center_x': .5, 'center_y': .5}
+            elevation: dp(8)
+            radius: [dp(20),]
+
+            MDLabel:
+                id: info_lbl
+                text: 'Пожалуйста, введите имена игроков!'
+                halign: 'center'
+                font_style: 'H6'
+                theme_text_color: 'Custom'
+                text_color: black
+                markup: True
+
+            MDBoxLayout:
+                size_hint: .7, None
+                spacing: dp(80)
+                pos_hint: {'center_x': .5, 'center_y': .5}
+
+                MDTextFieldRound:
+                    hint_text: 'Имя первого игрока'
+                    hint_text_color: app.theme_cls.primary_dark
+
+                    text_color: app.theme_cls.accent_color
+                    pos_hint: {'center_y': .5}
+                    on_text:
+                        root.first_name = self.text
+                        root.check()
+
+                MDTextFieldRound:
+                    hint_text: 'Имя второго игрока'
+                    hint_text_color: app.theme_cls.primary_dark
+                    pos_hint: {'center_y': .5}
+                    on_text:
+                        root.second_name = self.text
+                        root.check()
+
+            Widget:
+                size_hint_y: .3
+
+        Widget:
+
+        MDRoundFlatButton:
+            id: play_btn
+            text: 'ИГРАТЬ'
+            md_bg_color: bg_color
+            pos_hint: {'center_x': .5, 'center_y': .5}
+            size_hint: .3, .2
+            disabled: True
+            on_release:
+                root.go_on()
+
+
+        Widget:
