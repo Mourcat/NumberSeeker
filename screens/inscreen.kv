@@ -1,0 +1,113 @@
+#: import Animation kivy.animation.Animation
+#: import Win kivy.core.window.Window
+#: import from_hex kivy.utils.get_color_from_hex
+#: import exit sys.exit
+#: set bg_color from_hex('#2f4f4f')
+#: set black from_hex('#000240')
+
+
+<InScreen>:
+    on_enter:
+        Animation(opacity=1).start(intro_lay)
+
+    MDBoxLayout:
+        id: intro_lay
+        orientation: 'vertical'
+        opacity: 0
+        spacing: dp(50)
+        padding: dp(30)
+
+        MDLabel:
+            text: app.title
+            halign: 'center'
+            font_style: 'H3'
+            theme_text_color: 'Custom'
+            text_color: app.theme_cls.primary_dark
+            size_hint_y: None
+			height: self.texture_size[1] + dp(80)
+
+        MDCard:
+            orientation: 'vertical'
+            size_hint_y: None
+			height: dp(220)
+            md_bg_color: bg_color
+            pos_hint: {'center_x': .5, 'center_y': .5}
+            elevation: 12
+            radius: [dp(20),]
+
+            MDLabel:
+                id: info_lbl
+                text: 'Пожалуйста, введите имена игроков!'
+                halign: 'center'
+                font_style: 'H6'
+                theme_text_color: 'Custom'
+                text_color: black
+                markup: True
+
+            MDBoxLayout:
+                size_hint: .8, None
+				height: dp(200)
+                spacing: dp(40)
+                pos_hint: {'center_x': .5, 'center_y': .5}
+
+                MDTextFieldRound:
+                    hint_text: 'Имя первого игрока'
+                    hint_text_color: app.theme_cls.primary_dark
+                    pos_hint: {'center_y': .5}
+                    on_text:
+                        root.first_name = self.text
+                        root.check()
+
+                MDTextFieldRound:
+                    hint_text: 'Имя второго игрока'
+                    hint_text_color: app.theme_cls.primary_dark
+                    pos_hint: {'center_y': .5}
+                    on_text:
+                        root.second_name = self.text
+                        root.check()
+
+        MDBoxLayout:
+        	orientation: 'vertical'
+			spacing: dp(55)
+			padding: dp(34)
+			size_hint_y: None
+			width: dp(320)
+			height: dp(280)
+			pos_hint: {'center_x': .5, 'center_y': .2}
+			canvas:
+				Color:
+					rgba: app.theme_cls.accent_dark
+				Line:
+					rectangle:
+						self.x, self.y, self.width, self.height
+			
+	        MDRoundFlatButton:
+	            id: play_btn
+	            text: 'ИГРАТЬ'
+	            md_bg_color: bg_color
+	            pos_hint: {'center_x': .5, 'center_y': .5}
+	            size_hint: .8, .2
+	            disabled: True
+	            on_release:
+	                root.go_on()
+	                
+			MDRoundFlatButton:
+	            text: 'НАСТРОЙКИ'
+	            md_bg_color: bg_color
+	            pos_hint: {'center_x': .5, 'center_y': .5}
+	            size_hint: .8, .2
+	            on_release:
+	                root.settings_dlg()
+	                #self.manager.current = ''
+			
+			MDRoundFlatButton:
+	            #id: play_btn
+	            text: 'ВЫЙТИ'
+	            md_bg_color: bg_color
+	            pos_hint: {'center_x': .5, 'center_y': .5}
+	            size_hint: .8, .2
+	            on_release:
+	                exit()
+	                
+	    Widget:
+	    	size_hint_y: .07
